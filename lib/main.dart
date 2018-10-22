@@ -43,6 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController _pwdcontroller = new TextEditingController();
   bool _isFavorited = true;
   bool _isdownTime = false;
+  bool _isphoneNumTrue = false;
   int _seconds = 0;
   Timer _timer;
   String _verifyStr = "获取验证码";
@@ -58,6 +59,8 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+
+  //倒计时
   _startTimer() {
     if (_isdownTime == false) {
       _isdownTime = true;
@@ -78,6 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  //取消倒计时
   _cancelTimer() {
     _timer?.cancel();
   }
@@ -147,6 +151,18 @@ class _MyHomePageState extends State<MyHomePage> {
                                 fontSize: 14.0,
                               ),
                             ),
+                            onChanged: (text) {
+                              //内容改变的回调
+                              if (text.length == 11) {
+                                setState(() {
+                                  _isphoneNumTrue = true;
+                                });
+                              } else {
+                                setState(() {
+                                  _isphoneNumTrue = false;
+                                });
+                              }
+                            },
                           ),
                         ),
                       ],
@@ -195,9 +211,11 @@ class _MyHomePageState extends State<MyHomePage> {
                           child: Material(
                             color: Colors.white,
                             shape: new RoundedRectangleBorder(
-                              side: const BorderSide(
+                              side: BorderSide(
                                 width: 1.0,
-                                color: Color(0xFF999999),
+                                color: _isphoneNumTrue
+                                    ? Color(0xFFe94444)
+                                    : Color(0xFF999999),
                               ),
                               borderRadius: new BorderRadius.circular(15.0),
                             ),
@@ -208,7 +226,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                 child: new Text(
                                   _verifyStr,
                                   style: new TextStyle(
-                                      fontSize: 12.0, color: Color(0xFF999999)),
+                                    fontSize: 12.0,
+                                    color: _isphoneNumTrue
+                                        ? Color(0xFFe94444)
+                                        : Color(0xFF999999),
+                                  ),
                                 ),
                               ),
                             ),
